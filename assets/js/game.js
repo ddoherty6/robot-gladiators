@@ -25,15 +25,18 @@ var fight = function(enemyName) {
       if (confirmSkip) {
         window.alert(playerName + " has decided to skip the fight. Goodbye!");
         //subtract money from playerMoney for skipping
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney);
         break;
       }
     }
-  
+
+    //generate random damage value based on player's attack power
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+
       //Subtract value of playerAttack from the value of enemyHealth and use that result to update the value in the enemyHealth variable
-    enemyHealth = enemyHealth - playerAttack;
-    //Subtract the value of enemyAttack from the value of playerHealth and use that result to update the value in the playerHealth variable
+    enemyHealth = Math.max(0, enemyHealth - playerAttack);
+    
     
     //Log a resulting message to the console so we know that it worked
     console.log(playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining.");
@@ -52,7 +55,9 @@ var fight = function(enemyName) {
       window.alert(enemyName + " still has " + enemyHealth + " health left.");
     }
     
-    playerHealth = playerHealth - enemyAttack;
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+
+    playerHealth = Math.max(0, playerHealth - enemyAttack);
     console.log(enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining.");
 
     // check player's health
@@ -119,7 +124,7 @@ var shop = function() {
       playerAttack = playerAttack + 6;
       playerMoney = playerMoney - 7;
       } else {
-        window.alert("You don't have neough money!");
+        window.alert("You don't have enough money!");
       }
       break;
     case "LEAVE":
@@ -128,12 +133,17 @@ var shop = function() {
       //do nothing so function will end
       break;
     default:
-      window.alert("Yu did not pick a valid oiption. Try again.");
+      window.alert("You did not pick a valid oiption. Try again.");
 
       //call shop() again to force player to pick a valid option
       shop();
       break;
   }
+}
+
+var randomNumber = function(min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) +min);
+  return value;
 }
 
 // function to start a new game
@@ -147,7 +157,7 @@ var startGame = function() {
       window.alert("Round "+(i+1)+". Fight!")
     
       var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
       fight(pickedEnemyName);
 
       //if we're not at the last enemy in the array
