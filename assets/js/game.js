@@ -77,12 +77,47 @@ var fightOrSkip = function() {
 
     // if yes (true) leave fight
     if (confirmSkip) {
-      window.alert(playerInfo.name + " has decided to skip the fight.");
       playerInfo.money = Math.max(0, playerInfo.money - 10);
       return true;
     }
   }
   return false;
+}
+
+var shop = function() {
+  //ask the player what they'd like to do
+  var shopOptionPrompt = window.prompt(
+    "Would you like to 1. REFILL your health, 2. UPGRADE your attack, or 3. LEAVE the store?"
+  );
+
+  shopOptionPrompt = parseInt(shopOptionPrompt);
+
+  //use switch to carry out action
+  switch (shopOptionPrompt) {
+    case 1:
+    case "REFILL":
+    case "refill":
+      playerInfo.refillHealth();
+      break;
+    case 2:
+    case "UPGRADE":
+    case "upgrade":
+      playerInfo.upgradeAttack();
+
+      break;
+    case 3:
+    case "LEAVE":
+    case "leave":
+      window.alert("Leaving the store.");
+      //do nothing so function will end
+      break;
+    default:
+      window.alert("You did not pick a valid oiption. Try again.");
+
+      //call shop() again to force player to pick a valid option
+      shop();
+      break;
+  }
 }
 
 var fight = function(enemy) {
@@ -91,7 +126,6 @@ var fight = function(enemy) {
   while(playerInfo.health > 0 && enemy.health > 0) {
 
     if (fightOrSkip()) {
-      shop();
       break;
     }
 
@@ -158,35 +192,7 @@ var endGame = function() {
   }
 }
 
-var shop = function() {
-  //ask the player what they'd like to do
-  var shopOptionPrompt = window.prompt(
-    "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
-  );
 
-  //use switch to carry out action
-  switch (shopOptionPrompt) {
-    case "REFILL":
-    case "refill":
-      playerInfo.refillHealth();
-      break;
-    case "UPGRADE":
-    case "upgrade":
-      playerInfo.upgradeAttack();
-      break;
-    case "LEAVE":
-    case "leave":
-      window.alert("Leaving the store.");
-      //do nothing so function will end
-      break;
-    default:
-      window.alert("You did not pick a valid oiption. Try again.");
-
-      //call shop() again to force player to pick a valid option
-      shop();
-      break;
-  }
-}
 
 // function to start a new game
 var startGame = function() {
@@ -210,7 +216,7 @@ var startGame = function() {
         if(storeConfirm) {
           shop();
         }
-        
+      
       }
 
     } else {
