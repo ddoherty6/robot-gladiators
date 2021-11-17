@@ -173,6 +173,22 @@ var endGame = function() {
     window.alert("You've lost your robot in battle.");
   }
 
+  highScore = localStorage.getItem("highScore"); //get high score and name of player who set it
+  highScorePlayer = localStorage.getItem("highScorePlayer");
+
+  if (highScore === null) {
+    highScore = 0;
+  }
+
+  if (playerInfo.money > highScore) { //compare to current score and respond accordingly
+    window.alert("NEW HIGH SCORE! " + playerInfo.money);
+    localStorage.setItem("highScore", playerInfo.money);
+    localStorage.setItem("highScorePlayer", playerInfo.name);
+  } else {
+    window.alert("You did not beat the high score. Currently " + highScore + ", set by " + highScorePlayer);
+  }
+
+
   //ask the player if they'd like to play again
   var playAgainConfirm = window.confirm("Would you like to play again?");
 
